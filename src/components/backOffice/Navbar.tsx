@@ -40,15 +40,27 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import ThemeSwitcherBtn from "../ThemeSwitcherBtn";
+import Link from "next/link";
 
-export default function Navbar() {
+export default function Navbar({
+  showSidebar,
+  setShowSidebar,
+}: {
+  showSidebar: any;
+  setShowSidebar: any;
+}) {
   return (
-    <div className="fixed top-0 w-full z-50">
-      <div className="flex items-center ml-60 p justify-between bg-white dark:bg-slate-800 text-slate-50 h-20 px-10  ">
-        {/* Icon */}
-        <button className="text-lime-800 dark:text-lime-500">
-          <AlignJustify />
-        </button>
+    <div className="">
+      <div className="flex items-center  p justify-between bg-white dark:bg-slate-800 text-slate-50 h-20 px-8 py-8  fixed top-0 w-full z-50 sm:pr-[18rem]">
+        <div className="flex items-center gap-5">
+          <Link href={"/dashboard"} className="sm:hidden">
+            EFY Mart
+          </Link>
+          {/* Icon */}
+          <button className="text-lime-800 dark:text-lime-500">
+            <AlignJustify onClick={() => setShowSidebar(!showSidebar)} />
+          </button>
+        </div>
         {/* 3 Icon  */}
         <div className="flex space-x-3 text-green-600">
           {/* <button>

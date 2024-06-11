@@ -7,7 +7,7 @@ import React from "react";
 
 export default function page() {
   return (
-    <div>
+    <div className="">
       <Heading title="Dashboard Overview" />
       {/* Large Cards */}
       <LargeCards />
