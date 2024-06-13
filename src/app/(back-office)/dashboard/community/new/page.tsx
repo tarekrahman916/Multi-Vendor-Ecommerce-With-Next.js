@@ -1,5 +1,6 @@
 "use client";
 import ImageInput from "@/components/FormInputs/ImageInput";
+import QuilEditor from "@/components/FormInputs/QuilEditor";
 import SelectInput from "@/components/FormInputs/SelectInput";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import TextInput from "@/components/FormInputs/TextInput";
@@ -11,20 +12,21 @@ import { generateSlug } from "@/lib/generateSlug";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-export default function NewCategory() {
+export default function NewTraining() {
   const [imageUrl, setImageUrl] = useState("");
-  const markets = [
+  const [content, setContent] = useState("");
+  const categories = [
     {
       id: 1,
-      title: "Digital Electronica Markets",
+      title: "Category 1",
     },
     {
       id: 2,
-      title: "Barisal Electronica Markets",
+      title: "Category 2",
     },
     {
       id: 3,
-      title: "Dhaka Electronica Markets",
+      title: "Category 3",
     },
   ];
   const [loading, setLoading] = useState(false);
@@ -39,14 +41,21 @@ export default function NewCategory() {
       isActive: true,
     },
   });
+
+  //Quil Editor
+
+  // quil Editor End
+
   const isActive = watch("isActive");
   async function onSubmit(data: any) {
     {
       /*
   id=> auto,
   title ,
+  expertId,
   slug=> auto,
   description,
+  content==> RichText
   image
   */
     }
@@ -54,16 +63,18 @@ export default function NewCategory() {
     const slug = generateSlug(data.title);
     data.slug = slug;
     data.imageUrl = imageUrl;
+    data.content = content;
     console.log(data);
 
-    makePostRequest(setLoading, "api/categories", data, "Category", reset);
+    makePostRequest(setLoading, "api/trainings", data, "Training", reset);
     setImageUrl("");
+    setContent("");
   }
 
   return (
     <div>
       {/* Form Header */}
-      <FormHeader title="New Category" />
+      <FormHeader title="New Training" />
       {/* Form */}
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -71,35 +82,41 @@ export default function NewCategory() {
       >
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
           <TextInput
-            label="Category Title"
+            label="Training Title"
             name="title"
             register={register}
             errors={errors}
             className="w-full"
           />
           <SelectInput
-            label="Select Markets"
-            name="marketsIds"
+            label="Select Category"
+            name="categoryId"
             register={register}
-            options={markets}
+            options={categories}
             className="w-full"
-            multiple={true}
           />
 
           <TextareaInput
-            label="Category Description"
+            label="Training Description"
             name="description"
             register={register}
             errors={errors}
           />
           <ImageInput
-            label="Category Image"
+            label="Training Thumbnail"
             imageUrl={imageUrl}
             setImageUrl={setImageUrl}
-            endpoint="categoryImageUploader"
+            endpoint="trainingImageUploader"
           />
+          {/* Content */}
+          <QuilEditor
+            label="Training Content"
+            value={content}
+            onChange={setContent}
+          />
+          {/* Content End */}
           <ToggleInput
-            label="Publish your Category"
+            label="Publish your Training"
             name={"isActive"}
             isActive={isActive}
             trueTitle="Active"
@@ -109,8 +126,8 @@ export default function NewCategory() {
         </div>
         <SubmitButton
           isLoading={loading}
-          buttonTitle="Create Category"
-          loadingButtonTitle="Creating Category please wait..."
+          buttonTitle="Create Training"
+          loadingButtonTitle="Creating Training please wait..."
         />
       </form>
     </div>

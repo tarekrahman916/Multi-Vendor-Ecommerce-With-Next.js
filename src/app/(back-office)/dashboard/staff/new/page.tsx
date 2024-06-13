@@ -8,25 +8,12 @@ import ToggleInput from "@/components/FormInputs/ToggleInput";
 import FormHeader from "@/components/backOffice/FormHeader";
 import { makePostRequest } from "@/lib/apiRequest";
 import { generateSlug } from "@/lib/generateSlug";
+import { generateUserCode } from "@/lib/generateUserCode";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-export default function NewCategory() {
+export default function NewStaff() {
   const [imageUrl, setImageUrl] = useState("");
-  const markets = [
-    {
-      id: 1,
-      title: "Digital Electronica Markets",
-    },
-    {
-      id: 2,
-      title: "Barisal Electronica Markets",
-    },
-    {
-      id: 3,
-      title: "Dhaka Electronica Markets",
-    },
-  ];
   const [loading, setLoading] = useState(false);
   const {
     register,
@@ -43,27 +30,26 @@ export default function NewCategory() {
   async function onSubmit(data: any) {
     {
       /*
-  id=> auto,
-  title ,
-  slug=> auto,
-  description,
-  image
+  name ,
+  password,
+  email,
+  phone,
+  physicalAddress,
+  NIN,
+  DOB,
+  notes,
+  isActive
   */
     }
-
-    const slug = generateSlug(data.title);
-    data.slug = slug;
-    data.imageUrl = imageUrl;
-    console.log(data);
-
-    makePostRequest(setLoading, "api/categories", data, "Category", reset);
-    setImageUrl("");
+    const code = generateUserCode("EMSF", data.name);
+    data.code = code;
+    makePostRequest(setLoading, "api/staffs", data, "Staff", reset);
   }
 
   return (
     <div>
       {/* Form Header */}
-      <FormHeader title="New Category" />
+      <FormHeader title="New Staff" />
       {/* Form */}
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -71,35 +57,68 @@ export default function NewCategory() {
       >
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
           <TextInput
-            label="Category Title"
-            name="title"
+            label="Staff Full Name"
+            name="name"
+            register={register}
+            errors={errors}
+          />
+          <TextInput
+            label="NIN (ID Number )"
+            name="nin"
             register={register}
             errors={errors}
             className="w-full"
           />
-          <SelectInput
-            label="Select Markets"
-            name="marketsIds"
+          <TextInput
+            label="Date of Birth"
+            name="dob"
+            type="date"
             register={register}
-            options={markets}
+            errors={errors}
             className="w-full"
-            multiple={true}
+          />
+          <TextInput
+            label="Password"
+            name="password"
+            type="password"
+            register={register}
+            errors={errors}
+            className="w-full"
+          />
+          <TextInput
+            label="Staff's Email Address"
+            name="email"
+            type="email"
+            register={register}
+            errors={errors}
+            className="w-full"
+          />
+
+          <TextInput
+            label="Staff's Phone"
+            name="phone"
+            type="tel"
+            register={register}
+            errors={errors}
+            className="w-full"
+          />
+
+          <TextInput
+            label="Staff's Physical Address"
+            name="physicalAddress"
+            register={register}
+            errors={errors}
+            className="w-full"
           />
 
           <TextareaInput
-            label="Category Description"
-            name="description"
+            label="Notes"
+            name="notes"
             register={register}
             errors={errors}
           />
-          <ImageInput
-            label="Category Image"
-            imageUrl={imageUrl}
-            setImageUrl={setImageUrl}
-            endpoint="categoryImageUploader"
-          />
           <ToggleInput
-            label="Publish your Category"
+            label="Staff Status"
             name={"isActive"}
             isActive={isActive}
             trueTitle="Active"
@@ -109,8 +128,8 @@ export default function NewCategory() {
         </div>
         <SubmitButton
           isLoading={loading}
-          buttonTitle="Create Category"
-          loadingButtonTitle="Creating Category please wait..."
+          buttonTitle="Create Staff"
+          loadingButtonTitle="Creating Staff please wait..."
         />
       </form>
     </div>

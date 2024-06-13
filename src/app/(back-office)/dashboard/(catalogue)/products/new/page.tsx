@@ -1,4 +1,6 @@
+//@ts-nocheck
 "use client";
+import ArrayItemsInput from "@/components/FormInputs/ArrayItemsInput";
 import ImageInput from "@/components/FormInputs/ImageInput";
 import SelectInput from "@/components/FormInputs/SelectInput";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
@@ -8,31 +10,50 @@ import ToggleInput from "@/components/FormInputs/ToggleInput";
 import FormHeader from "@/components/backOffice/FormHeader";
 import { makePostRequest } from "@/lib/apiRequest";
 import { generateSlug } from "@/lib/generateSlug";
+import { Plus, X } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-export default function NewCategory() {
+export default function NewProduct() {
   const [imageUrl, setImageUrl] = useState("");
-  const markets = [
+  const categories = [
     {
       id: 1,
-      title: "Digital Electronica Markets",
+      title: "Category 1",
     },
     {
       id: 2,
-      title: "Barisal Electronica Markets",
+      title: "Category 2",
     },
     {
       id: 3,
-      title: "Dhaka Electronica Markets",
+      title: "Category 3",
     },
   ];
+  const suppliers = [
+    {
+      id: 1,
+      title: "Supplier 1",
+    },
+    {
+      id: 2,
+      title: "Supplier 2",
+    },
+    {
+      id: 3,
+      title: "Supplier 3",
+    },
+  ];
+  // Tags
+  const [tags, setTags] = useState([]);
+
+  // Tags End
   const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
-    reset,
     watch,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -40,6 +61,7 @@ export default function NewCategory() {
     },
   });
   const isActive = watch("isActive");
+
   async function onSubmit(data: any) {
     {
       /*
@@ -47,23 +69,31 @@ export default function NewCategory() {
   title ,
   slug=> auto,
   description,
-  image
+  image/images[]
+  sku
+  barcode
+  productPrice
+  salePrice
+  category
+  supplier
+  tags[]
   */
     }
 
     const slug = generateSlug(data.title);
     data.slug = slug;
+    data.tags = tags;
     data.imageUrl = imageUrl;
     console.log(data);
 
-    makePostRequest(setLoading, "api/categories", data, "Category", reset);
+    makePostRequest(setLoading, "api/products", data, "Product", reset);
     setImageUrl("");
   }
 
   return (
     <div>
       {/* Form Header */}
-      <FormHeader title="New Category" />
+      <FormHeader title="New Product" />
       {/* Form */}
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -71,35 +101,72 @@ export default function NewCategory() {
       >
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
           <TextInput
-            label="Category Title"
+            label="Product Title"
             name="title"
+            register={register}
+            errors={errors}
+          />
+          <TextInput
+            label="Product SKU"
+            name="sku"
+            register={register}
+            errors={errors}
+            className="w-full"
+          />
+          <TextInput
+            label="Product Barcode"
+            name="barcode"
+            register={register}
+            errors={errors}
+            className="w-full"
+          />
+          <TextInput
+            label="Product Price (Before Discount)"
+            name="productPrice"
+            type="number"
+            register={register}
+            errors={errors}
+            className="w-full"
+          />
+          <TextInput
+            label="Product Sale Price (Discounted)"
+            name="salePrice"
+            type="number"
             register={register}
             errors={errors}
             className="w-full"
           />
           <SelectInput
-            label="Select Markets"
-            name="marketsIds"
+            label="Select Category"
+            name="categoryId"
             register={register}
-            options={markets}
+            options={categories}
             className="w-full"
-            multiple={true}
+          />
+          <SelectInput
+            label="Select Supplier"
+            name="supplierId"
+            register={register}
+            options={suppliers}
+            className="w-full"
           />
 
+          <ImageInput
+            label="Product Image"
+            imageUrl={imageUrl}
+            setImageUrl={setImageUrl}
+            endpoint="productImageUploader"
+          />
+          <ArrayItemsInput items={tags} setItems={setTags} itemTitle="Tag" />
+
           <TextareaInput
-            label="Category Description"
+            label="Product Description"
             name="description"
             register={register}
             errors={errors}
           />
-          <ImageInput
-            label="Category Image"
-            imageUrl={imageUrl}
-            setImageUrl={setImageUrl}
-            endpoint="categoryImageUploader"
-          />
           <ToggleInput
-            label="Publish your Category"
+            label="Publish your Product"
             name={"isActive"}
             isActive={isActive}
             trueTitle="Active"
@@ -109,8 +176,8 @@ export default function NewCategory() {
         </div>
         <SubmitButton
           isLoading={loading}
-          buttonTitle="Create Category"
-          loadingButtonTitle="Creating Category please wait..."
+          buttonTitle="Create Product"
+          loadingButtonTitle="Creating Product please wait..."
         />
       </form>
     </div>

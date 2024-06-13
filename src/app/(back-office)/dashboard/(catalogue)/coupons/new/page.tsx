@@ -2,42 +2,44 @@
 
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import TextInput from "@/components/FormInputs/TextInput";
+import ToggleInput from "@/components/FormInputs/ToggleInput";
 import FormHeader from "@/components/backOffice/FormHeader";
 import { makePostRequest } from "@/lib/apiRequest";
 import { generateCouponCode } from "@/lib/generateCouponCode";
+import { generateIsoFormattedDate } from "@/lib/generateIsoFormattedDate";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function NewCoupon() {
   const [loading, setLoading] = useState(false);
-  const [couponCode, setCouponCode] = useState();
   const {
     register,
     handleSubmit,
     reset,
     watch,
     formState: { errors },
-  } = useForm();
-  // const title = watch("title");
-  // const expiry = watch("expiryDate");
-  // const coupon = generateCouponCode(title, expiry);
-  // console.log(coupon);
+  } = useForm({
+    defaultValues: {
+      isActive: true,
+    },
+  });
+  const isActive = watch("isActive");
+  const router = useRouter();
+
+  function redirect() {
+    router.push("/dashboard/coupons");
+  }
+
   async function onSubmit(data: any) {
-    {
-      /*
-  id=> auto,
-  title ,
-  code=>auto,
-  slug=> auto,
-  expiryDate,
-
-  */
-    }
-
     const couponCode = generateCouponCode(data.title, data.expiryDate);
+    const isoFormattedDate = generateIsoFormattedDate(data.expiryDate);
+
     data.couponCode = couponCode;
+    data.expiryDate = isoFormattedDate;
+
     console.log(data);
-    makePostRequest(setLoading, "api/coupons", data, "Coupon", reset);
+    makePostRequest(setLoading, "api/coupons", data, "Coupon", reset, redirect);
   }
 
   return (
@@ -57,14 +59,6 @@ export default function NewCoupon() {
             errors={errors}
             className="w-full"
           />
-          {/* <TextInput
-            label="Coupon Code"
-            name="couponCode"
-            register={register}
-            errors={errors}
-            defaultValue="efy916"
-            className="w-full"
-          /> */}
           <TextInput
             label="Coupon Expiry Date"
             name="expiryDate"
@@ -72,6 +66,14 @@ export default function NewCoupon() {
             register={register}
             errors={errors}
             className="w-full"
+          />
+          <ToggleInput
+            label="Publish your Coupon"
+            name={"isActive"}
+            isActive={isActive}
+            trueTitle="Active"
+            falseTitle="Draft"
+            register={register}
           />
         </div>
         <SubmitButton

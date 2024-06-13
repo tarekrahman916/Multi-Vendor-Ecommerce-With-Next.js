@@ -113,7 +113,7 @@ export default function Sidebar({
     {
       title: "Store sliders",
       icon: MonitorPlay,
-      href: "/dashboard/sliders",
+      href: "/dashboard/banners",
     },
   ];
 

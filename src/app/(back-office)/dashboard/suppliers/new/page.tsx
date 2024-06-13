@@ -8,25 +8,12 @@ import ToggleInput from "@/components/FormInputs/ToggleInput";
 import FormHeader from "@/components/backOffice/FormHeader";
 import { makePostRequest } from "@/lib/apiRequest";
 import { generateSlug } from "@/lib/generateSlug";
+import { generateUserCode } from "@/lib/generateUserCode";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-export default function NewCategory() {
+export default function NewSupplier() {
   const [imageUrl, setImageUrl] = useState("");
-  const markets = [
-    {
-      id: 1,
-      title: "Digital Electronica Markets",
-    },
-    {
-      id: 2,
-      title: "Barisal Electronica Markets",
-    },
-    {
-      id: 3,
-      title: "Dhaka Electronica Markets",
-    },
-  ];
   const [loading, setLoading] = useState(false);
   const {
     register,
@@ -43,27 +30,27 @@ export default function NewCategory() {
   async function onSubmit(data: any) {
     {
       /*
-  id=> auto,
-  title ,
-  slug=> auto,
-  description,
-  image
+   name,
+  phone,
+  physicalAddress,
+  contactPerson,
+  contactPersonPhone,
+  terms,
+  notes,
+  code,
+  isActive
   */
     }
 
-    const slug = generateSlug(data.title);
-    data.slug = slug;
-    data.imageUrl = imageUrl;
-    console.log(data);
-
-    makePostRequest(setLoading, "api/categories", data, "Category", reset);
-    setImageUrl("");
+    const code = generateUserCode("EMSL", data.name);
+    data.code = code;
+    makePostRequest(setLoading, "api/suppliers", data, "Supplier", reset);
   }
 
   return (
     <div>
       {/* Form Header */}
-      <FormHeader title="New Category" />
+      <FormHeader title="New Supplier" />
       {/* Form */}
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -71,35 +58,67 @@ export default function NewCategory() {
       >
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
           <TextInput
-            label="Category Title"
-            name="title"
+            label="Supplier's Full Name"
+            name="name"
             register={register}
             errors={errors}
             className="w-full"
           />
-          <SelectInput
-            label="Select Markets"
-            name="marketsIds"
+
+          <TextInput
+            label="Suppliers's Phone"
+            name="phone"
+            type="tel"
             register={register}
-            options={markets}
+            errors={errors}
             className="w-full"
-            multiple={true}
+          />
+          <TextInput
+            label="Suppliers's Email"
+            name="phone"
+            type="email"
+            register={register}
+            errors={errors}
+            className="w-full"
+          />
+          <TextInput
+            label="Suppliers's Physical Address"
+            name="physicalAddress"
+            register={register}
+            errors={errors}
+            className="w-full"
+          />
+          <TextInput
+            label="Suppliers's Contact Person"
+            name="contactPerson"
+            register={register}
+            errors={errors}
+            className="w-full"
+          />
+          <TextInput
+            label="Suppliers's Contact Person Phone"
+            name="contactPersonPhone"
+            type="tel"
+            register={register}
+            errors={errors}
+            className="w-full"
           />
 
           <TextareaInput
-            label="Category Description"
-            name="description"
+            label="Suppliers Payment Terms"
+            name="terms"
             register={register}
             errors={errors}
           />
-          <ImageInput
-            label="Category Image"
-            imageUrl={imageUrl}
-            setImageUrl={setImageUrl}
-            endpoint="categoryImageUploader"
+          <TextareaInput
+            label="Notes"
+            name="notes"
+            register={register}
+            errors={errors}
           />
+
           <ToggleInput
-            label="Publish your Category"
+            label="Supplier Status"
             name={"isActive"}
             isActive={isActive}
             trueTitle="Active"

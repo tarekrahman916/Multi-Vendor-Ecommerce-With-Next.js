@@ -1,33 +1,19 @@
 "use client";
+
 import ImageInput from "@/components/FormInputs/ImageInput";
-import SelectInput from "@/components/FormInputs/SelectInput";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import TextInput from "@/components/FormInputs/TextInput";
-import TextareaInput from "@/components/FormInputs/TextareaInput";
 import ToggleInput from "@/components/FormInputs/ToggleInput";
 import FormHeader from "@/components/backOffice/FormHeader";
 import { makePostRequest } from "@/lib/apiRequest";
-import { generateSlug } from "@/lib/generateSlug";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-export default function NewCategory() {
+export default function NewBanner() {
   const [imageUrl, setImageUrl] = useState("");
-  const markets = [
-    {
-      id: 1,
-      title: "Digital Electronica Markets",
-    },
-    {
-      id: 2,
-      title: "Barisal Electronica Markets",
-    },
-    {
-      id: 3,
-      title: "Dhaka Electronica Markets",
-    },
-  ];
   const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -40,30 +26,24 @@ export default function NewCategory() {
     },
   });
   const isActive = watch("isActive");
-  async function onSubmit(data: any) {
-    {
-      /*
-  id=> auto,
-  title ,
-  slug=> auto,
-  description,
-  image
-  */
-    }
+  const router = useRouter();
 
-    const slug = generateSlug(data.title);
-    data.slug = slug;
+  function redirect() {
+    router.push("/dashboard/banners");
+  }
+  async function onSubmit(data: any) {
+    // title,link,imageUrl,isActive
     data.imageUrl = imageUrl;
     console.log(data);
 
-    makePostRequest(setLoading, "api/categories", data, "Category", reset);
+    makePostRequest(setLoading, "api/banners", data, "Banner", reset, redirect);
     setImageUrl("");
   }
 
   return (
     <div>
       {/* Form Header */}
-      <FormHeader title="New Category" />
+      <FormHeader title="New Coupon" />
       {/* Form */}
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -71,35 +51,26 @@ export default function NewCategory() {
       >
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
           <TextInput
-            label="Category Title"
+            label="Banner Title"
             name="title"
             register={register}
             errors={errors}
-            className="w-full"
           />
-          <SelectInput
-            label="Select Markets"
-            name="marketsIds"
-            register={register}
-            options={markets}
-            className="w-full"
-            multiple={true}
-          />
-
-          <TextareaInput
-            label="Category Description"
-            name="description"
+          <TextInput
+            label="Banner Link"
+            name="link"
             register={register}
             errors={errors}
+            type="url"
           />
           <ImageInput
-            label="Category Image"
+            label="Banner Image"
             imageUrl={imageUrl}
             setImageUrl={setImageUrl}
-            endpoint="categoryImageUploader"
+            endpoint="bannerImageUploader"
           />
           <ToggleInput
-            label="Publish your Category"
+            label="Publish your Banner"
             name={"isActive"}
             isActive={isActive}
             trueTitle="Active"
@@ -109,8 +80,8 @@ export default function NewCategory() {
         </div>
         <SubmitButton
           isLoading={loading}
-          buttonTitle="Create Category"
-          loadingButtonTitle="Creating Category please wait..."
+          buttonTitle="Create Coupon"
+          loadingButtonTitle="Creating Coupon please wait..."
         />
       </form>
     </div>

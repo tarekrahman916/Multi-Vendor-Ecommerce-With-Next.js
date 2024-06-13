@@ -9,5 +9,30 @@ export const ourFileRouter = {
     // Set permissions and file types for this FileRoute
     .onUploadComplete(async ({ metadata, file }) => {
       console.log("file url", file.url, metadata);
+      return { uploadBy: "TNI" };
+    }),
+  bannerImageUploader: f({ image: { maxFileSize: "2MB" } })
+    // Set permissions and file types for this FileRoute
+    .onUploadComplete(async ({ metadata, file }) => {
+      console.log("file url", file.url, metadata);
+      return { uploadBy: "TNI" };
+    }),
+  marketLogoUploader: f({ image: { maxFileSize: "1MB" } })
+    // Set permissions and file types for this FileRoute
+    .onUploadComplete(async ({ metadata, file }) => {
+      console.log("file url", file.url, metadata);
+      return { uploadBy: "TNI" };
+    }),
+  productImageUploader: f({ image: { maxFileSize: "1MB" } })
+    // Set permissions and file types for this FileRoute
+    .onUploadComplete(async ({ metadata, file }) => {
+      console.log("file url", file.url, metadata);
+      return { uploadBy: "TNI" };
+    }),
+  trainingImageUploader: f({ image: { maxFileSize: "1MB" } })
+    // Set permissions and file types for this FileRoute
+    .onUploadComplete(async ({ metadata, file }) => {
+      console.log("file url", file.url, metadata);
+      return { uploadBy: "TNI" };
     }),
 };

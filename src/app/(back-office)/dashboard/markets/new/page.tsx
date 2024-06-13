@@ -3,6 +3,7 @@ import ImageInput from "@/components/FormInputs/ImageInput";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import TextInput from "@/components/FormInputs/TextInput";
 import TextareaInput from "@/components/FormInputs/TextareaInput";
+import ToggleInput from "@/components/FormInputs/ToggleInput";
 import FormHeader from "@/components/backOffice/FormHeader";
 import { makePostRequest } from "@/lib/apiRequest";
 import { generateSlug } from "@/lib/generateSlug";
@@ -10,15 +11,20 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function NewMarket() {
-  const [imageUrl, setImageUrl] = useState("");
+  const [logoUrl, setLogoUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
+    watch,
     reset,
     formState: { errors },
-  } = useForm();
-
+  } = useForm({
+    defaultValues: {
+      isActive: true,
+    },
+  });
+  const isActive = watch("isActive");
   async function onSubmit(data: any) {
     {
       /*
@@ -32,11 +38,11 @@ export default function NewMarket() {
 
     const slug = generateSlug(data.title);
     data.slug = slug;
-    data.image = imageUrl;
+    data.logoUrl = logoUrl;
     console.log(data);
 
-    makePostRequest(setLoading, "api/categories", data, "Category", reset);
-    setImageUrl("");
+    makePostRequest(setLoading, "api/markets", data, "Market", reset);
+    setLogoUrl("");
   }
 
   return (
@@ -58,15 +64,23 @@ export default function NewMarket() {
 
           <ImageInput
             label="Market Logo"
-            imageUrl={imageUrl}
-            setImageUrl={setImageUrl}
-            endpoint="categoryImageUploader"
+            imageUrl={logoUrl}
+            setImageUrl={setLogoUrl}
+            endpoint="marketLogoUploader"
           />
           <TextareaInput
             label="Market Description"
             name="description"
             register={register}
             errors={errors}
+          />
+          <ToggleInput
+            label="Market Status"
+            name={"isActive"}
+            isActive={isActive}
+            trueTitle="Active"
+            falseTitle="Draft"
+            register={register}
           />
         </div>
         <SubmitButton
