@@ -9,6 +9,7 @@ import FormHeader from "@/components/backOffice/FormHeader";
 import { makePostRequest } from "@/lib/apiRequest";
 import { generateSlug } from "@/lib/generateSlug";
 import { generateUserCode } from "@/lib/generateUserCode";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -27,10 +28,15 @@ export default function NewSupplier() {
     },
   });
   const isActive = watch("isActive");
+  const router = useRouter();
+
+  function redirect() {
+    router.push("/dashboard/suppliers");
+  }
   async function onSubmit(data: any) {
     {
       /*
-   name,
+  name,
   phone,
   physicalAddress,
   contactPerson,
@@ -44,7 +50,15 @@ export default function NewSupplier() {
 
     const code = generateUserCode("EMSL", data.name);
     data.code = code;
-    makePostRequest(setLoading, "api/suppliers", data, "Supplier", reset);
+    data.profileImageUrl = imageUrl;
+    makePostRequest(
+      setLoading,
+      "api/suppliers",
+      data,
+      "Supplier",
+      reset,
+      redirect
+    );
   }
 
   return (
@@ -94,6 +108,7 @@ export default function NewSupplier() {
             register={register}
             errors={errors}
             className="w-full"
+            isRequired={false}
           />
           <TextInput
             label="Suppliers's Contact Person Phone"
@@ -102,6 +117,13 @@ export default function NewSupplier() {
             register={register}
             errors={errors}
             className="w-full"
+            isRequired={false}
+          />
+          <ImageInput
+            label="Supplier Profile Image"
+            imageUrl={imageUrl}
+            setImageUrl={setImageUrl}
+            endpoint="farmerProfileUploader"
           />
 
           <TextareaInput
@@ -109,12 +131,14 @@ export default function NewSupplier() {
             name="terms"
             register={register}
             errors={errors}
+            isRequired={false}
           />
           <TextareaInput
             label="Notes"
             name="notes"
             register={register}
             errors={errors}
+            isRequired={false}
           />
 
           <ToggleInput

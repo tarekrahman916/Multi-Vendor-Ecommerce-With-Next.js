@@ -9,6 +9,7 @@ import FormHeader from "@/components/backOffice/FormHeader";
 import { makePostRequest } from "@/lib/apiRequest";
 import { generateSlug } from "@/lib/generateSlug";
 import { generateUserCode } from "@/lib/generateUserCode";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -27,6 +28,11 @@ export default function NewStaff() {
     },
   });
   const isActive = watch("isActive");
+  const router = useRouter();
+
+  function redirect() {
+    router.push("/dashboard/staff");
+  }
   async function onSubmit(data: any) {
     {
       /*
@@ -43,7 +49,7 @@ export default function NewStaff() {
     }
     const code = generateUserCode("EMSF", data.name);
     data.code = code;
-    makePostRequest(setLoading, "api/staffs", data, "Staff", reset);
+    makePostRequest(setLoading, "api/staffs", data, "Staff", reset, redirect);
   }
 
   return (

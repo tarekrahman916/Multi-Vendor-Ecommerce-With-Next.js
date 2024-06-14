@@ -76,7 +76,8 @@ export default function NewProduct() {
   salePrice
   category
   supplier
-  tags[]
+  tags[],
+  isActive
   */
     }
 

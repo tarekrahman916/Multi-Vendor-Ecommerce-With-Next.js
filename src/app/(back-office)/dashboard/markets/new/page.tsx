@@ -1,5 +1,6 @@
 "use client";
 import ImageInput from "@/components/FormInputs/ImageInput";
+import SelectInput from "@/components/FormInputs/SelectInput";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import TextInput from "@/components/FormInputs/TextInput";
 import TextareaInput from "@/components/FormInputs/TextareaInput";
@@ -13,6 +14,20 @@ import { useForm } from "react-hook-form";
 export default function NewMarket() {
   const [logoUrl, setLogoUrl] = useState("");
   const [loading, setLoading] = useState(false);
+  const categories = [
+    {
+      id: 1,
+      title: "category 1",
+    },
+    {
+      id: 2,
+      title: "category 2",
+    },
+    {
+      id: 3,
+      title: "category 3",
+    },
+  ];
   const {
     register,
     handleSubmit,
@@ -26,16 +41,6 @@ export default function NewMarket() {
   });
   const isActive = watch("isActive");
   async function onSubmit(data: any) {
-    {
-      /*
-  id=> auto,
-  title ,
-  slug=> auto,
-  description,
-  image
-  */
-    }
-
     const slug = generateSlug(data.title);
     data.slug = slug;
     data.logoUrl = logoUrl;
@@ -60,6 +65,16 @@ export default function NewMarket() {
             name="title"
             register={register}
             errors={errors}
+            className="w-full"
+          />
+
+          <SelectInput
+            label="Select Categories"
+            name="categoryIds"
+            register={register}
+            options={categories}
+            className="w-full"
+            multiple={true}
           />
 
           <ImageInput

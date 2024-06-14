@@ -5,6 +5,7 @@ export async function POST(request: any) {
     const {
       name,
       phone,
+      email,
       physicalAddress,
       contactPerson,
       contactPersonPhone,
@@ -12,10 +13,12 @@ export async function POST(request: any) {
       notes,
       code,
       isActive,
+      profileImageUrl,
     } = await request.json();
     const newSupplier = {
       name,
       phone,
+      email,
       physicalAddress,
       contactPerson,
       contactPersonPhone,
@@ -23,6 +26,7 @@ export async function POST(request: any) {
       notes,
       code,
       isActive,
+      profileImageUrl,
     };
     console.log(newSupplier);
     return NextResponse.json(newSupplier);
