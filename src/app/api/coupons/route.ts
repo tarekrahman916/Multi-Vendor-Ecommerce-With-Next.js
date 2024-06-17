@@ -26,3 +26,23 @@ export async function POST(request: any) {
     );
   }
 }
+
+export async function GET(request: any) {
+  try {
+    const coupons = await db.coupon.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return NextResponse.json(coupons);
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      {
+        message: "Failed to Fetch Coupon",
+        error,
+      },
+      { status: 500 }
+    );
+  }
+}
