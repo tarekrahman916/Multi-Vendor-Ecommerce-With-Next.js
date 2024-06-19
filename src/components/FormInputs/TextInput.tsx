@@ -37,7 +37,7 @@ export default function TextInput({
           id={name}
           defaultValue={defaultValue}
           autoComplete={name}
-          className="block w-full rounded-md border-none outline-none py-3 px-3 text-gray-900 dark:text-slate-50 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-lime-700 dark:focus:ring-slate-500 sm:text-sm sm:leading-6 dark:bg-transparent"
+          className="block w-full rounded-md border-none outline-none py-2 px-3 text-gray-900 dark:text-slate-50 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-lime-700 dark:focus:ring-slate-500 sm:text-sm sm:leading-6 dark:bg-transparent"
           placeholder={`Type the ${label.toLowerCase()}`}
         />
         {errors[`${name}`] && (
