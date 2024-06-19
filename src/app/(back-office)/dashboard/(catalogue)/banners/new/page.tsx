@@ -43,7 +43,7 @@ export default function NewBanner() {
   return (
     <div>
       {/* Form Header */}
-      <FormHeader title="New Coupon" />
+      <FormHeader title="New Banner" />
       {/* Form */}
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -55,6 +55,7 @@ export default function NewBanner() {
             name="title"
             register={register}
             errors={errors}
+            className="w-full"
           />
           <TextInput
             label="Banner Link"
@@ -62,6 +63,7 @@ export default function NewBanner() {
             register={register}
             errors={errors}
             type="url"
+            className="w-full"
           />
           <ImageInput
             label="Banner Image"
@@ -80,8 +82,8 @@ export default function NewBanner() {
         </div>
         <SubmitButton
           isLoading={loading}
-          buttonTitle="Create Coupon"
-          loadingButtonTitle="Creating Coupon please wait..."
+          buttonTitle="Create Banner"
+          loadingButtonTitle="Creating Banner please wait..."
         />
       </form>
     </div>

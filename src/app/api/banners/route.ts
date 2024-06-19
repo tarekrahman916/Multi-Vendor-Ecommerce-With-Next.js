@@ -14,8 +14,7 @@ export async function POST(request: any) {
     console.log(error);
     return NextResponse.json(
       {
-        message: "Failed to create Banner",
-        error,
+        error: "Failed to create Banner",
       },
       { status: 500 }
     );

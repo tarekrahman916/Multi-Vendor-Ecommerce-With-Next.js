@@ -82,12 +82,19 @@ model Product {
   slug           String @unique
   sku            String?
   barcode        String?
+  productCode    String?
+  unit           String?
   productPrice   Float
   salePrice      Float?
+  wholesalePrice Float?
+  wholesaleQty   Int?
+  productStock   Int
+  qty            Int
   imageUrl       String?
   tags           String[]
   description    String?
   isActive       Boolean
+  isWholesale    Boolean
   
   category   Category  @relation(fields: [categoryId], references: [id])
   categoryId String @db.ObjectId

@@ -1,21 +1,20 @@
-export function generateUserCode(prefix: string, name: string) {
-  // Get the initials from the name (only the first letter of each word)
-  let initials = name
+export function generateUserCode(prefix: string, fullName: string) {
+  // Extract initials from full name
+  const initials = fullName
     .split(" ")
-    .map((word) => word[0])
-    .join("")
-    .toUpperCase();
+    .map((word) => word[0].toUpperCase())
+    .join("");
 
-  // Get the current date in YYYYMMDD format
-  let currentDate = new Date();
-  let year = currentDate.getFullYear();
-  let month = String(currentDate.getMonth() + 1).padStart(2, "0");
-  let day = String(currentDate.getDate()).padStart(2, "0");
-  let formattedDate = `${year}${month}${day}`;
+  // Get current time in the format HHMMSSsss (hours, minutes, seconds, milliseconds)
+  const now = new Date();
+  const time =
+    now.getHours().toString().padStart(2, "0") +
+    now.getMinutes().toString().padStart(2, "0") +
+    now.getSeconds().toString().padStart(2, "0") +
+    now.getMilliseconds().toString().padStart(3, "0");
 
-  // Generate a random 4-digit number
-  let randomNumber = Math.floor(1000 + Math.random() * 9000);
+  // Generate the user code
+  const userCode = `${prefix}-${initials}-${time}`;
 
-  // Concatenate all parts to form the user code
-  return `${prefix}-${initials}-${formattedDate}${randomNumber}`;
+  return userCode;
 }

@@ -38,11 +38,13 @@ export default function NewSupplierForm({ user }: { user: any }) {
       /*name,phone,physicalAddress,contactPerson,contactPersonPhone,terms,notes,code,isActive,products,landSize,mainCrop,userId,*/
     }
 
-    const code = generateUserCode("EMSL", data.name);
-    data.code = code;
+    const supplierUniqueCode = generateUserCode("EMS", data.name);
+    data.code = supplierUniqueCode;
     data.userId = user.id;
     data.products = products;
     data.profileImageUrl = imageUrl;
+
+    console.log(data);
     makePostRequest(
       setLoading,
       "api/suppliers",

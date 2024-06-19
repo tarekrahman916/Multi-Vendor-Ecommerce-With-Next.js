@@ -100,18 +100,13 @@ export default function Sidebar({
       icon: LayoutList,
       href: "/dashboard/categories",
     },
-    // {
-    //   title: "Attributes",
-    //   icon: SendToBack,
-    //   href: "/dashboard/attributes",
-    // },
     {
       title: "Coupons",
       icon: ScanSearch,
       href: "/dashboard/coupons",
     },
     {
-      title: "Store sliders",
+      title: "Store Banners",
       icon: MonitorPlay,
       href: "/dashboard/banners",
     },
