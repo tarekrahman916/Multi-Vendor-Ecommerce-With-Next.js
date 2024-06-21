@@ -33,6 +33,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.51.5",
     "react-hot-toast": "^2.4.1",
+    "react-multi-carousel": "^2.8.5",
     "react-quill": "^2.0.0",
     "sass": "^1.77.1",
     "tailwind-merge": "^2.3.0",
