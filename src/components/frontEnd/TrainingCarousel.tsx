@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 import { Card } from "flowbite-react";
 import Image from "next/image";
@@ -6,7 +7,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import image from "../../../public/banners/2.png";
 
-export default function TrainingCarousel(this: any) {
+export default function TrainingCarousel({ trainings }: { trainings: [] }) {
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -24,7 +25,6 @@ export default function TrainingCarousel(this: any) {
       slidesToSlide: 1, // optional, default to 1.
     },
   };
-  const slides = [{}, {}, {}, {}, {}, {}, {}, {}];
   return (
     <div>
       <Carousel
@@ -44,7 +44,7 @@ export default function TrainingCarousel(this: any) {
         dotListClass="custom-dot-list-style"
         itemClass="p-2"
       >
-        {slides.map((slide, i) => {
+        {trainings.map((training, i) => {
           return (
             // <div key={i} className="rounded-lg">
             //   <Image
@@ -75,26 +75,25 @@ export default function TrainingCarousel(this: any) {
             //   <div className="flex"></div>
             // </div>
             <Card
-              key={i}
+              key={training.id}
               className="mb-5 overflow-hidden"
               renderImage={() => (
                 <Link href="#">
                   <Image
                     width={500}
                     height={500}
-                    src={image}
-                    alt="image 1"
+                    src={training.imageUrl}
+                    alt={training.title}
                     className="w-full h-[250px] "
                   />
                 </Link>
               )}
             >
-              <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Noteworthy technology acquisitions 2021
+              <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+                {training.title}
               </h5>
               <p className="font-normal text-gray-700 dark:text-gray-400">
-                Here are the biggest enterprise technology acquisitions of 2021
-                so far, in reverse chronological order.
+                {training.description.slice(0, 100)}...
               </p>
               <div className="flex items-center justify-between">
                 <Link

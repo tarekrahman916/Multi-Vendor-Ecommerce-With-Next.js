@@ -1,10 +1,12 @@
+// @ts-nocheck
 "use client";
 import Image from "next/image";
 import Link from "next/link";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
-export default function MarketCarousel(this: any) {
+export default function MarketCarousel({ markets }: { markets: [] }) {
+  console.log(markets);
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -22,7 +24,7 @@ export default function MarketCarousel(this: any) {
       slidesToSlide: 1, // optional, default to 1.
     },
   };
-  const slides = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+
   return (
     <div>
       <Carousel
@@ -33,28 +35,28 @@ export default function MarketCarousel(this: any) {
         ssr={true} // means to render carousel on server-side.
         infinite={true}
         autoPlay={true}
-        autoPlaySpeed={1000}
+        autoPlaySpeed={3000}
         keyBoardControl={true}
         customTransition="all .5"
-        transitionDuration={500}
+        transitionDuration={1000}
         containerClass="carousel-container"
         removeArrowOnDeviceType={["tablet", "mobile"]}
         // deviceType={this.props.deviceType}
         dotListClass="custom-dot-list-style"
         itemClass="p-4"
       >
-        {slides.map((slide, i) => {
+        {markets.map((market) => {
           return (
-            <Link key={i} href="#" className="rounded-lg">
+            <Link key={market.id} href="#" className="rounded-lg">
               <Image
-                src="/market.png"
-                alt="market image"
+                src={market.logoUrl}
+                alt={market.title}
                 width={556}
                 height={556}
-                className="w-full rounded-xl"
+                className="w-full h-[150px] rounded-2xl"
               />
               <h3 className=" text-slate-800 dark:text-slate-200 text-center">
-                Vegetables
+                {market.title}
               </h3>
             </Link>
           );

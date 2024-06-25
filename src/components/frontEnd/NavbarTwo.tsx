@@ -1,23 +1,22 @@
-import Link from "next/link";
-import SearchForm from "./SearchForm";
-import logo from "../../../public/logo1.png";
+"use client";
+
+import { Button, Navbar } from "flowbite-react";
 import Image from "next/image";
+import Link from "next/link";
+import logo from "../../../public/logo1.png";
+import SearchForm from "./SearchForm";
 import { HelpCircle, ShoppingCart, User } from "lucide-react";
 import ThemeSwitcherBtn from "../ThemeSwitcherBtn";
 import HelpModal from "./HelpModal";
 
-export default function Navbar() {
+export default function NavbarTwo() {
   return (
     <div className="bg-white dark:bg-slate-700">
-      <div className="flex items-center justify-between py-3 max-w-6xl mx-auto gap-8">
-        <Link className="" href="/">
+      <Navbar fluid rounded className="">
+        <Navbar.Brand href="/">
           <Image src={logo} alt="EFY logo" className="w-32" />
-        </Link>
-        {/* SEARCH */}
-        <div className="flex-grow">
-          <SearchForm />
-        </div>
-        <div className="lg:flex gap-8 hidden">
+        </Navbar.Brand>
+        <div className="flex md:order-2">
           <Link
             href="/login"
             className="flex items-center space-x-1 text-green-950 dark:text-slate-100"
@@ -38,9 +37,21 @@ export default function Navbar() {
               20
             </div>
           </Link>
+          <ThemeSwitcherBtn />
+          <Navbar.Toggle />
         </div>
-        <ThemeSwitcherBtn />
-      </div>
+        <Navbar.Collapse>
+          {/* <Navbar.Link href="#" active>
+          Home
+        </Navbar.Link>
+        <Navbar.Link href="#">About</Navbar.Link>
+        <Navbar.Link href="#">Services</Navbar.Link>
+        <Navbar.Link href="#">Pricing</Navbar.Link>
+        <Navbar.Link href="#">Contact</Navbar.Link> */}
+
+          <SearchForm />
+        </Navbar.Collapse>
+      </Navbar>
     </div>
   );
 }

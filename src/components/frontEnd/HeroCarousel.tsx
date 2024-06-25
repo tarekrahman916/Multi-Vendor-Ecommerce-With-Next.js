@@ -1,10 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
+// @ts-nocheck
 "use client";
 import Image from "next/image";
 import Link from "next/link";
 // import { Carousel } from "flowbite-react";
 import { Carousel } from "nuka-carousel";
-export default function HeroCarousel() {
+interface IBanners {
+  banners;
+}
+export default function HeroCarousel({ banners }: { banners: [] }) {
+  console.log(banners);
   const items = [{}];
   return (
     <Carousel
@@ -13,7 +18,20 @@ export default function HeroCarousel() {
       autoplay
       className="rounded-md overflow-hidden "
     >
-      <Link href="#" className="min-w-[100%] ">
+      {banners.map((banner) => {
+        return (
+          <Link key={banner.id} href={banner.link} className="min-w-[100%] ">
+            <Image
+              src={banner.imageUrl}
+              alt={banner.title}
+              width={812}
+              height={384}
+              className=" w-full h-full object-cover"
+            />
+          </Link>
+        );
+      })}
+      {/* <Link href="#" className="min-w-[100%] ">
         <Image
           src="/banners/1.png"
           alt="slide image"
@@ -48,7 +66,7 @@ export default function HeroCarousel() {
           height={384}
           className=" w-full "
         />
-      </Link>
+      </Link> */}
     </Carousel>
   );
 }

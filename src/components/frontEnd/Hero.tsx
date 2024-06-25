@@ -1,43 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import image from "../../../public/vegetables.webp";
 import adsImg from "../../../public/ads.gif";
-
 import HeroCarousel from "./HeroCarousel";
 import { CircleDollarSign, FolderSync, HelpCircle } from "lucide-react";
+import SidebarCategories from "./SidebarCategories";
+import { getData } from "@/lib/getData";
 
-export default function Hero() {
-  const categories = [{}, {}, {}, {}, {}, {}, {}];
+export default async function Hero() {
+  const banners = await getData("banners");
+
   return (
     <div className="grid grid-cols-12 gap-6 mb-6 ">
-      <div className="col-span-3 hidden sm:block  bg-white border border-gray-300 rounded-lg   dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
-        <h2 className="bg-gray-100 dark:bg-slate-700 py-3 px-6 font-semibold border-gray-300 dark:border-gray-600 border-b text-gray-800 dark:text-slate-100">
-          Shop By Category
-        </h2>
-        <div className="py-3 px-6 flex flex-col gap-2 h-[325px] overflow-y-auto">
-          {categories.map((category, i) => {
-            return (
-              <Link
-                key={i}
-                href="#"
-                className="flex items-center gap-3 rounded-lg hover:bg-slate-50 dark:hover:bg-gray-700 duration-500 transition-all"
-              >
-                <Image
-                  src={image}
-                  alt="category_image"
-                  width={556}
-                  height={556}
-                  className="w-10 h-10 rounded-full object-cover border border-lime-400"
-                />
-                <span className="text-sm">Vegetables</span>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
+      <SidebarCategories />
       <div className="sm:col-span-7 col-span-full h-full rounded-md bg-blue-500">
-        <HeroCarousel />
+        <HeroCarousel banners={banners} />
       </div>
       <div className="col-span-2 hidden sm:block bg-white p-3 dark:bg-slate-800 rounded-md">
         <Link href="#" className="flex items-center space-x-3 mb-3">

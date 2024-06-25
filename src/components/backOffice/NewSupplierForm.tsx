@@ -11,7 +11,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import ArrayItemsInput from "../FormInputs/ArrayItemsInput";
 
-export default function NewSupplierForm({ user }: { user: any }) {
+export default function NewSupplierForm({ user }: { user?: any }) {
   const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);

@@ -1,14 +1,16 @@
 "use client";
+import { BaggageClaim } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Key } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
-export default function CategoryCarousel(this: any) {
+export default function CategoryCarousel({ products }: { products: any }) {
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 6,
+      items: 4,
       slidesToSlide: 3, // optional, default to 1.
     },
     tablet: {
@@ -22,7 +24,7 @@ export default function CategoryCarousel(this: any) {
       slidesToSlide: 1, // optional, default to 1.
     },
   };
-  const slides = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+
   return (
     <div>
       <Carousel
@@ -33,7 +35,7 @@ export default function CategoryCarousel(this: any) {
         ssr={true} // means to render carousel on server-side.
         infinite={true}
         autoPlay={true}
-        autoPlaySpeed={1000}
+        autoPlaySpeed={3000}
         keyBoardControl={true}
         customTransition="all .5"
         transitionDuration={500}
@@ -41,22 +43,39 @@ export default function CategoryCarousel(this: any) {
         removeArrowOnDeviceType={["tablet", "mobile"]}
         // deviceType={this.props.deviceType}
         dotListClass="custom-dot-list-style"
-        itemClass="p-4"
+        itemClass="p-2"
       >
-        {slides.map((slide, i) => {
+        {products.map((product: any) => {
           return (
-            <Link key={i} href="#" className="rounded-lg">
-              <Image
-                src="/market.png"
-                alt="market image"
-                width={556}
-                height={556}
-                className="w-full rounded-xl"
-              />
-              <h3 className=" text-slate-800 dark:text-slate-200 text-center">
-                Vegetables
-              </h3>
-            </Link>
+            <div
+              key={product.id}
+              className="rounded-lg border overflow-hidden hover:-translate-y-1 duration-300 transition-all bg-slate-100 dark:bg-slate-800 shadow-lg"
+            >
+              <Link href={`/products/${product.slug}`}>
+                <Image
+                  src={product.imageUrl}
+                  alt="market image"
+                  width={556}
+                  height={556}
+                  className="w-full h-[200px] object-cover  rounded-lg"
+                />
+              </Link>
+
+              <div className="p-3">
+                <Link href={`/products/${product.slug}`}>
+                  <h2 className=" text-slate-900 text-base dark:text-slate-200 lg:font-semibold text-center">
+                    {product.title}
+                  </h2>
+                </Link>
+                <div className="flex items-center justify-between mt-3">
+                  <p>$ {product.salePrice}</p>
+                  <button className="flex items-center space-x-2 text-white bg-lime-800 hover:bg-lime-700 duration-300 transition-all px-4 py-2 rounded-md">
+                    <BaggageClaim />
+                    <span>Add</span>
+                  </button>
+                </div>
+              </div>
+            </div>
           );
         })}
       </Carousel>
