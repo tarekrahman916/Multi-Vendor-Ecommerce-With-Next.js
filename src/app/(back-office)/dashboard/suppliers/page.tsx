@@ -1,7 +1,11 @@
 import PageHeader from "@/components/backOffice/PageHeader";
-import TableActions from "@/components/backOffice/TableActions";
 
-export default function page() {
+import { getData } from "@/lib/getData";
+import { columns } from "./columns";
+import DataTable from "@/components/data-table-components/DataTable";
+
+export default async function page() {
+  const suppliers = await getData("suppliers");
   return (
     <div>
       {/* Header */}
@@ -11,11 +15,10 @@ export default function page() {
         href="/dashboard/suppliers/new"
       />
       {/* Table Actions */}
-      <TableActions />
-
-      {/* Table */}
       <div className="py-8">
-        <h2>Table</h2>
+        {Array.isArray(suppliers) && (
+          <DataTable data={suppliers} columns={columns} filterKeys={["name"]} />
+        )}
       </div>
     </div>
   );

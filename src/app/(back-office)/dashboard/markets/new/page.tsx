@@ -5,13 +5,26 @@ import React from "react";
 export default async function NewMarket() {
   const categoriesData = await getData("categories");
 
-  const categories = categoriesData.map(
-    (category: { id: any; title: string }) => {
-      return {
-        id: category.id,
-        title: category.title,
-      };
-    }
-  );
+  // const categories = categoriesData.map(
+  //   (category: { id: any; title: string }) => {
+  //     return {
+  //       id: category.id,
+  //       title: category.title,
+  //     };
+  //   }
+  // );
+
+  if (!categoriesData) {
+    return <div>Error loading data</div>;
+  }
+
+  const categories = Array.isArray(categoriesData)
+    ? categoriesData.map((category: { id: any; title: string }) => {
+        return {
+          id: category.id,
+          title: category.title,
+        };
+      })
+    : [];
   return <NewMarketForm categories={categories} />;
 }

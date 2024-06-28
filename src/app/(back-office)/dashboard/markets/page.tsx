@@ -1,7 +1,10 @@
 import PageHeader from "@/components/backOffice/PageHeader";
-import TableActions from "@/components/backOffice/TableActions";
+import DataTable from "@/components/data-table-components/DataTable";
+import { getData } from "@/lib/getData";
+import { columns } from "./columns";
 
-export default function Markets() {
+export default async function Markets() {
+  const markets = await getData("markets");
   return (
     <div>
       {/* Header */}
@@ -10,12 +13,10 @@ export default function Markets() {
         linkTitle="Add Market"
         href="/dashboard/markets/new"
       />
-      {/* Table Actions */}
-      <TableActions />
-
-      {/* Table */}
       <div className="py-8">
-        <h2>Table</h2>
+        {Array.isArray(markets) && (
+          <DataTable data={markets} columns={columns} />
+        )}
       </div>
     </div>
   );

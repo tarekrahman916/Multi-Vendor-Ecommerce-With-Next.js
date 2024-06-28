@@ -1,7 +1,11 @@
 import PageHeader from "@/components/backOffice/PageHeader";
-import TableActions from "@/components/backOffice/TableActions";
 
-export default function page() {
+import { getData } from "@/lib/getData";
+import { columns } from "./columns";
+import DataTable from "@/components/data-table-components/DataTable";
+
+export default async function page() {
+  const trainings = await getData("trainings");
   return (
     <div>
       {/* Header */}
@@ -10,12 +14,10 @@ export default function page() {
         linkTitle="Add Training"
         href="/dashboard/community/new"
       />
-      {/* Table Actions */}
-      <TableActions />
-
-      {/* Table */}
       <div className="py-8">
-        <h2>Table</h2>
+        {Array.isArray(trainings) && (
+          <DataTable data={trainings} columns={columns} />
+        )}
       </div>
     </div>
   );
