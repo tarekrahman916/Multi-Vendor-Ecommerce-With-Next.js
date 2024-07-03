@@ -56,8 +56,19 @@ export const columns = [
       <DateColumn row={row} accessorKey="createdAt" />
     ),
   },
+
   {
     id: "actions",
-    cell: ({ row }: { row: any }) => <ActionColumn row={row} title="Market" />,
+    cell: ({ row }: { row: any }) => {
+      const market = row.original;
+      return (
+        <ActionColumn
+          row={row}
+          title="Training"
+          editEndpoint={`markets/update/${market.id}`}
+          endPoint={`markets/${market.id}`}
+        />
+      );
+    },
   },
 ];

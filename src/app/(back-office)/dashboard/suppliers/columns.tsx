@@ -37,22 +37,16 @@ export const columns = [
       <SortableColumn column={column} title="name" />
     ),
   },
-  {
-    accessorKey: "profileImageUrl",
-    header: "Profile Image",
-    cell: ({ row }: { row: any }) => (
-      <ImageColumn row={row} accessorKey="profileImageUrl" />
-    ),
-  },
+
   {
     accessorKey: "email",
     header: "Email",
   },
-
   {
-    accessorKey: "isActive",
-    header: "Active",
+    accessorKey: "role",
+    header: "Role",
   },
+
   {
     accessorKey: "createdAt",
     header: "Created Date",
@@ -62,8 +56,16 @@ export const columns = [
   },
   {
     id: "actions",
-    cell: ({ row }: { row: any }) => (
-      <ActionColumn row={row} title="Supplier" />
-    ),
+    cell: ({ row }: { row: any }) => {
+      const supplier = row.original;
+      return (
+        <ActionColumn
+          row={row}
+          title="Supplier"
+          editEndpoint={`suppliers/update/${supplier.id}`}
+          endPoint={`suppliers/${supplier.id}`}
+        />
+      );
+    },
   },
 ];

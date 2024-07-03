@@ -56,12 +56,18 @@ export async function POST(request: any) {
 
 export async function GET(request: any) {
   try {
-    const profiles = await db.supplierProfile.findMany({
+    const suppliers = await db.user.findMany({
       orderBy: {
         createdAt: "desc",
       },
+      where: {
+        role: "SUPPLIER",
+      },
+      include: {
+        supplierProfile: true,
+      },
     });
-    return NextResponse.json(profiles);
+    return NextResponse.json(suppliers);
   } catch (error) {
     console.log(error);
     return NextResponse.json(

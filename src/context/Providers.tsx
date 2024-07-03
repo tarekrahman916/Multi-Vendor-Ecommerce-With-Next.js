@@ -10,9 +10,9 @@ import { initFlowbite } from "flowbite";
 import { useEffect } from "react";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  useEffect(() => {
-    initFlowbite();
-  }, []);
+  // useEffect(() => {
+  //   initFlowbite();
+  // }, []);
   return (
     <ThemeProvider attribute="class" defaultTheme="dark">
       <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />

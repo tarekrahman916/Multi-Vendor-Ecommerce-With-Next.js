@@ -1,7 +1,17 @@
-export default function UpdateCoupon() {
+import FormHeader from "@/components/backOffice/FormHeader";
+import BannerForm from "@/components/backOffice/Forms/BannerForm";
+import { getData } from "@/lib/getData";
+
+export default async function UpdateBanner({
+  params: { id },
+}: {
+  params: any;
+}) {
+  const banner = await getData(`banners/${id}`);
   return (
     <div>
-      <h2>Update Coupon</h2>
+      <FormHeader title="Update Banner" />
+      <BannerForm updateData={banner} />
     </div>
   );
 }

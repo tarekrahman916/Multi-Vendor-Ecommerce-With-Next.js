@@ -1,3 +1,4 @@
+import FormHeader from "@/components/backOffice/FormHeader";
 import NewProductForm from "@/components/backOffice/NewProductForm";
 import { getData } from "@/lib/getData";
 
@@ -47,5 +48,10 @@ export default async function NewProduct() {
     title: supplier.name,
   }));
 
-  return <NewProductForm categories={categories} suppliers={suppliers} />;
+  return (
+    <div>
+      <FormHeader title="New Product" />
+      <NewProductForm categories={categories} suppliers={suppliers} />
+    </div>
+  );
 }
